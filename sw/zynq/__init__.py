@@ -43,4 +43,9 @@ class Zynq:
         tcl_parameters.update(self.usbs.tcl_parameters())
         tcl_parameters.update(self.clocks.tcl_parameters())
         tcl_parameters.update(self.mio.tcl_parameters())
+
+        # Explicitly disable for now
+        tcl_parameters.update({
+            "PCW_USE_M_AXI_GP0": 0
+        })
         return tcl_parameters
