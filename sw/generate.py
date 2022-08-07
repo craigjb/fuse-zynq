@@ -43,8 +43,10 @@ def main():
         with open(sys.argv[1]) as f:
             config = ordered_load(f)
 
-        zynq_config_path = config["parameters"].get("zynq_config_path", None)
-        if zynq_config_path:
+        zynq_config_file = config["parameters"].get("zynq_config_file", None)
+        if zynq_config_file:
+            zynq_config_path = os.path.join(
+                config["files_root"], zynq_config_file)
             with open(zynq_config_path) as f:
                 params = ordered_load(f)
         else:
