@@ -5,7 +5,7 @@ description: Zynq 7000 series processing system (Zynq PS7)
 
 generators:
   zynq_ps7_gen:
-    interpreter: python
+    interpreter: python3
     command: sw/generate.py
     description: Generate Zync 7000 processing system configuration
     usage: |
