@@ -1,0 +1,576 @@
+parts:
+    - XC7Z010
+    - XC7Z015
+    - XC7Z020
+    - XC7Z030
+    - XC7Z035
+    - XC7Z045
+    - XC7Z100
+
+speed_grades:
+    - "-3E"
+    - "-2E"
+    - "-2I"
+    - "-2LI"
+    - "-1C"
+    - "-1I"
+    - "-1Q"
+    - "-1LQ"
+
+# Per DS191 Table 22
+ps_in_freq_mhz:
+    min: 30
+    max: 60
+
+# Per DS191 Table 19
+cpu_ratio_modes:
+    - "6:2:1"
+    - "4:2:1"
+
+# Per DS191 Table 19
+cpu_freq_mhz:
+    min: 26
+    max: 
+      "6:2:1":
+        "-3E": 1000.0
+        "-2E": 800.0
+        "-2I": 800.0
+        "-2LI": 800.0
+        "-1C": 667.0
+        "-1I": 667.0
+        "-1Q": 667.0
+        "-1LQ": 667.0
+      "4:2:1":
+        "-3E": 710.0
+        "-2E": 600.0
+        "-2I": 600.0
+        "-2LI": 600.0
+        "-1C": 533.0
+        "-1I": 533.0
+        "-1Q": 533.0
+        "-1LQ": 533.0
+
+# Per UG585 Table 25-6
+pll_mul:
+    min: 13
+    max: 66
+
+pll_div:
+    min: 2
+    max: 30
+
+# Per DS191 Table 23
+pll_freq_mhz:
+    min: 780
+    max:
+        "-3E": 2000.0
+        "-2E": 1800.0
+        "-2I": 1800.0
+        "-2LI": 1800.0
+        "-1C": 1600.0
+        "-1I": 1600.0
+        "-1Q": 1600.0
+        "-1LQ": 1600.0
+
+io_pll_freq_mhz_default: 1000.0
+
+io_divisor:
+  min: 1
+  max: 63
+
+# Per DS191 Table 20
+ddr_types:
+    DDR3: "DDR 3"
+    DDR3L: "LPDDR 3"
+    DDR2: "DDR 2"
+    LPDDR2: "LPDDR 2"
+
+ddr_min_feq: 26.0
+
+ddr_data_max_rate:
+    DDR3:
+        "-3E": 1333.0
+        "-2E": 1066.0
+        "-2I": 1066.0
+        "-2LI": 1066.0
+        "-1C": 1066.0
+        "-1I": 1066.0
+        "-1Q": 1066.0
+        "-1LQ": 1066.0
+    DDR3L:
+        "-3E": 1066.0
+        "-2E": 1066.0
+        "-2I": 1066.0
+        "-2LI": 1066.0
+        "-1C": 1066.0
+        "-1I": 1066.0
+        "-1Q": 1066.0
+        "-1LQ": 1066.0
+    DDR2:
+        "-3E": 800.0
+        "-2E": 800.0
+        "-2I": 800.0
+        "-2LI": 800.0
+        "-1C": 800.0
+        "-1I": 800.0
+        "-1Q": 800.0
+        "-1LQ": 800.0
+    LPDDR2:
+        "-3E": 800.0
+        "-2E": 800.0
+        "-2I": 800.0
+        "-2LI": 800.0
+        "-1C": 800.0
+        "-1I": 800.0
+        "-1Q": 800.0
+        "-1LQ": 800.0
+
+ddr_speed_bins:
+    DDR3:
+        "800D": "SB_DDR3_800D"
+        "800E": "SB_DDR3_800E"
+        "1066E": "SB_DDR3_1066E"
+        "1066F": "SB_DDR3_1066F"
+        "1066G": "SB_DDR3_1066G"
+        "1333F": "SB_DDR3_1333F"
+        "1333G": "SB_DDR3_1333G"
+        "1333H": "SB_DDR3_1333H"
+        "1333J": "SB_DDR3_1333J"
+        "1600G": "SB_DDR3_1600G"
+        "1600H": "SB_DDR3_1600H"
+        "1600J": "SB_DDR3_1600J"
+        "1600K": "SB_DDR3_1600K"
+    DDR3L:
+        "800D": "SB_DDR3_800D"
+        "800E": "SB_DDR3_800E"
+        "1066E": "SB_DDR3_1066E"
+        "1066F": "SB_DDR3_1066F"
+        "1066G": "SB_DDR3_1066G"
+    DDR2:
+        "400B": "SB_DDR2_400B"
+        "400C": "SB_DDR2_400C"
+        "533B": "SB_DDR2_533B"
+        "533C": "SB_DDR2_533C"
+        "667C": "SB_DDR2_667C"
+        "667D": "SB_DDR2_667D"
+        "800C": "SB_DDR2_800C"
+        "800D": "SB_DDR2_800D"
+        "800E": "SB_DDR2_800E"
+    LPDDR2:
+        "333": "SB_LPDDR2_333"
+        "400": "SB_LPDDR2_400"
+        "533": "SB_LPDDR2_533"
+        "667": "SB_LPDDR2_667"
+        "800": "SB_LPDDR2_800"
+        "933": "SB_LPDDR2_933"
+        "1066": "SB_LPDDR2_1066"
+
+ddr_bus_widths:
+    16: "16 Bits"
+    32: "32 Bits"
+
+ddr_part_widths:
+    4: "4 Bits"
+    8: "8 Bits"
+    16: "16 Bits"
+    32: "32 Bits"
+
+ddr_part_capacities:
+    128: "128 Mbits"
+    256: "256 Mbits"
+    512: "512 Mbits"
+    1024: "1024 Mbits"
+    2048: "2048 Mbits"
+    4096: "4096 Mbits"
+    8192: "8192 Mbits"
+
+ddr_bank_bits:
+    min: 2
+    max: 3
+
+ddr_row_bits:
+    min: 12
+    max: 15
+
+ddr_col_bits:
+    min: 8
+    max: 13
+
+ddr_timing_cl:
+    min: 0
+    max: 16
+
+ddr_timing_cwl:
+    min: 0
+    max: 16
+
+ddr_timing_t_rcd:
+    min: 0
+    max: 16
+
+ddr_timing_t_rp:
+    min: 0
+    max: 16
+
+ddr_timing_t_rc:
+    min: 0.0
+    max: 100.0
+
+ddr_timing_t_ras_min:
+    min: 0.0
+    max: 100.0
+
+ddr_timing_t_faw:
+    min: 0.0
+    max: 100.0
+
+ddr_dqs_to_clk_delay:
+    min: -0.1
+    max: 100.0
+
+ddr_dq_delay:
+    min: 0.007
+    max: 100.0
+
+mio_count: 54
+mio_bank_voltages:
+  - "1.8V"
+  - "2.5V"
+  - "3.3V"
+mio_banks:
+  0: 0-15
+  1: 15-53
+mio_io_types:
+  "1.8V": "LVCMOS18"
+  "2.5V": "LVCMOS25"
+  "3.3V": "LVCMOS33"
+
+uart_freq_mhz:
+  default: 25.0
+  min: 1.0
+  max: 100.0
+
+uarts:
+  0:
+    pin_groups:
+      - rx: MIO 10
+        tx: MIO 11
+        name: "MIO 10 .. 11"
+      - rx: MIO 14
+        tx: MIO 15
+        name: "MIO 14 .. 15"
+      - rx: MIO 18
+        tx: MIO 19
+        name: "MIO 18 .. 19"
+      - rx: MIO 22
+        tx: MIO 23
+        name: "MIO 22 .. 23"
+      - rx: MIO 26
+        tx: MIO 27
+        name: "MIO 26 .. 27"
+      - rx: MIO 30
+        tx: MIO 31
+        name: "MIO 30 .. 31"
+      - rx: MIO 34
+        tx: MIO 35
+        name: "MIO 34 .. 35"
+      - rx: MIO 38
+        tx: MIO 39
+        name: "MIO 38 .. 39"
+      - rx: MIO 42
+        tx: MIO 43
+        name: "MIO 42 .. 43"
+      - rx: MIO 46
+        tx: MIO 47
+        name: "MIO 46 .. 47"
+      - rx: MIO 50
+        tx: MIO 51
+        name: "MIO 50 .. 51"
+      - rx: EMIO
+        tx: EMIO
+        name: "EMIO"
+  1:
+    pin_groups:
+      - tx: MIO 8
+        rx: MIO 9
+        name: "MIO 8 .. 9"
+      - tx: MIO 12
+        rx: MIO 13
+        name: "MIO 12 .. 13"
+      - tx: MIO 16
+        rx: MIO 17
+        name: "MIO 16 .. 17"
+      - tx: MIO 20
+        rx: MIO 21
+        name: "MIO 20 .. 21"
+      - tx: MIO 24
+        rx: MIO 25
+        name: "MIO 24 .. 25"
+      - tx: MIO 28
+        rx: MIO 29
+        name: "MIO 28 .. 29"
+      - tx: MIO 32
+        rx: MIO 33
+        name: "MIO 32 .. 33"
+      - tx: MIO 36
+        rx: MIO 37
+        name: "MIO 36 .. 37"
+      - tx: MIO 40
+        rx: MIO 41
+        name: "MIO 40 .. 41"
+      - tx: MIO 44
+        rx: MIO 45
+        name: "MIO 44 .. 45"
+      - tx: MIO 48
+        rx: MIO 49
+        name: "MIO 48 .. 49"
+      - tx: MIO 52
+        rx: MIO 53
+        name: "MIO 52 .. 53"
+      - tx: EMIO
+        rx: EMIO
+
+uart_baud_rates:
+  - 110
+  - 300
+  - 1200
+  - 2400
+  - 4800
+  - 9600
+  - 19200
+  - 38400
+  - 57600
+  - 115200
+  - 128000
+  - 230400
+  - 460800
+  - 921600
+
+qspi:
+  freq_mhz:
+    min: 1.0
+    max: 200.0
+  pins:
+    io0: MIO 2
+    io1: MIO 3
+    io2: MIO 4
+    io3: MIO 5
+    sclk: MIO 6
+    cs: MIO 1
+    fbck: MIO 8
+  grp_ss_params:
+    PCW_QSPI_QSPI_IO: "MIO 1 .. 6"
+    PCW_QSPI_GRP_SINGLE_SS_ENABLE: 1
+    PCW_QSPI_GRP_SINGLE_SS_IO: "MIO 1 .. 6"
+
+sdio:
+  freq_mhz:
+    default: 100.0
+    min: 1.0
+    max: 125.0
+  invalid_detect_pins:
+    - MIO 7
+    - MIO 8
+  invalid_protect_pins:
+    - MIO 7
+    - MIO 8
+  peripherals:
+    0:
+      pin_groups:
+        - ck: MIO 16
+          cmd: MIO 17
+          io0: MIO 18
+          io1: MIO 19
+          io2: MIO 20
+          io3: MIO 21
+          name: "MIO 16 .. 21"
+        - ck: MIO 28
+          cmd: MIO 29
+          io0: MIO 30
+          io1: MIO 31
+          io2: MIO 32
+          io3: MIO 33
+          name: "MIO 28 .. 33"
+        - ck: MIO 40
+          cmd: MIO 41
+          io0: MIO 42
+          io1: MIO 43
+          io2: MIO 44
+          io3: MIO 45
+          name: "MIO 40 .. 45"
+        - ck: EMIO
+          cmd: EMIO
+          io0: EMIO
+          io1: EMIO
+          io2: EMIO
+          io3: EMIO
+          name: "EMIO"
+    1:
+      pin_groups:
+        - io0: MIO 10
+          cmd: MIO 11
+          ck: MIO 12
+          io1: MIO 13
+          io2: MIO 14
+          io3: MIO 15
+          name: "MIO 10 .. 15"
+        - io0: MIO 22
+          cmd: MIO 23
+          ck: MIO 24
+          io1: MIO 25
+          io2: MIO 26
+          io3: MIO 27
+          name: "MIO 22 .. 27"
+        - io0: MIO 34
+          cmd: MIO 35
+          ck: MIO 36
+          io1: MIO 37
+          io2: MIO 38
+          io3: MIO 39
+          name: "MIO 34 .. 39"
+        - io0: MIO 46
+          cmd: MIO 47
+          ck: MIO 48
+          io1: MIO 49
+          io2: MIO 50
+          io3: MIO 51
+          name: "MIO 46 .. 51"
+        - ck: EMIO
+          cmd: EMIO
+          io0: EMIO
+          io1: EMIO
+          io2: EMIO
+          io3: EMIO
+          name: "EMIO"
+
+usb:
+  peripherals:
+    0:
+      pins:
+        clk:
+          loc: MIO 36
+          slew: fast
+          dir: in
+          pullup: yes
+        dir:
+          loc: MIO 29
+          slew: fast
+          dir: in
+          pullup: yes
+        stp:
+          loc: MIO 30
+          slew: fast
+          dir: out
+          pullup: yes
+        nxt:
+          loc: MIO 31
+          slew: fast
+          dir: in
+          pullup: yes
+        data0:
+          loc: MIO 32
+          slew: fast
+          dir: inout
+          pullup: yes
+        data1:
+          loc: MIO 33
+          slew: fast
+          dir: inout
+          pullup: yes
+        data2:
+          loc: MIO 34
+          slew: fast
+          dir: inout
+          pullup: yes
+        data3:
+          loc: MIO 35
+          slew: fast
+          dir: inout
+          pullup: yes
+        data4:
+          loc: MIO 28
+          slew: fast
+          dir: inout
+          pullup: yes
+        data5:
+          loc: MIO 37
+          slew: fast
+          dir: inout
+          pullup: yes
+        data6:
+          loc: MIO 38
+          slew: fast
+          dir: inout
+          pullup: yes
+        data7:
+          loc: MIO 39
+          slew: fast
+          dir: inout
+          pullup: yes
+      pin_grp_name: "MIO 28 .. 39"
+    1:
+      pins: 
+        clk:
+          loc: MIO 48
+          slew: fast
+          dir: in
+          pullup: yes
+        dir:
+          loc: MIO 41
+          slew: fast
+          dir: in
+          pullup: yes
+        stp:
+          loc: MIO 42
+          slew: fast
+          dir: out
+          pullup: yes
+        nxt:
+          loc: MIO 43
+          slew: fast
+          dir: in
+          pullup: yes
+        data0:
+          loc: MIO 44
+          slew: fast
+          dir: inout
+          pullup: yes
+        data1:
+          loc: MIO 45
+          slew: fast
+          dir: inout
+          pullup: yes
+        data2:
+          loc: MIO 46
+          slew: fast
+          dir: inout
+          pullup: yes
+        data3:
+          loc: MIO 47
+          slew: fast
+          dir: inout
+          pullup: yes
+        data4:
+          loc: MIO 40
+          slew: fast
+          dir: inout
+          pullup: yes
+        data5:
+          loc: MIO 49
+          slew: fast
+          dir: inout
+          pullup: yes
+        data6:
+          loc: MIO 50
+          slew: fast
+          dir: inout
+          pullup: yes
+        data7:
+          loc: MIO 51
+          slew: fast
+          dir: inout
+          pullup: yes
+      pin_grp_name: "MIO 40 .. 51"
+  params:
+    PCW_USB_RESET_ENABLE: 1
+    PCW_USB_RESET_SELECT: "Separate reset pins"

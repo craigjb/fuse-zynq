@@ -1,0 +1,14 @@
+CAPI=2:
+
+name: craigjb::zynq_ps7:0.1.0
+description: Zynq 7000 series processing system (Zynq PS7)
+
+generators:
+  zynq_ps7_gen:
+    interpreter: python
+    command: sw/generate.py
+    description: Generate Zync 7000 processing system configuration
+    usage: |
+      Generates a zynq_ps7.tcl script to include into Vivado, replacing 
+      any configuration that would normally be done using the Vivado GUI.
+      See README.md for example parameters.
