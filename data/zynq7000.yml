@@ -241,9 +241,9 @@ mio_banks:
   0: 0-15
   1: 15-53
 mio_io_types:
-  "1.8V": "LVCMOS18"
-  "2.5V": "LVCMOS25"
-  "3.3V": "LVCMOS33"
+  "1.8V": "LVCMOS 1.8V"
+  "2.5V": "LVCMOS 2.5V"
+  "3.3V": "LVCMOS 3.3V"
 
 uart_freq_mhz:
   default: 25.0
