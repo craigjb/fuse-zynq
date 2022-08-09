@@ -21,11 +21,11 @@ class Qspi:
         if self.enabled:
             params = {
                 "PCW_QSPI_PERIPHERAL_ENABLE": 1,
-                "PCW_EN_QSPI": 1,
                 "PCW_QSPI_PERIPHERAL_FREQMHZ": self.freq_mhz,
-                "PCW_ACT_QSPI_PERIPHERAL_FREQMHZ": self.freq_mhz,
+                "PCW_QSPI_GRP_SINGLE_SS_ENABLE": 1,
                 "PCW_QSPI_PERIPHERAL_DIVISOR0": self.clk_divisor,
                 "PCW_QSPI_PERIPHERAL_CLKSRC": self.clk_source,
+                "PCW_QSPI_PERIPHERAL_FREQMHZ": self.freq_mhz
             }
             if self.feedback_clk:
                 params.update({

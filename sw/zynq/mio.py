@@ -39,7 +39,13 @@ class Mio:
     def tcl_parameters(self):
         if not self.generated_gpio:
             self.gen_gpio()
-        params = {}
+        params = {
+            "PCW_GPIO_MIO_GPIO_ENABLE": 1,
+            "PCW_PRESET_BANK0_VOLTAGE":
+                platform["mio_io_types"][self.bank_voltages[0]],
+            "PCW_PRESET_BANK1_VOLTAGE":
+                platform["mio_io_types"][self.bank_voltages[1]],
+        }
         for pin, asmt in self.assignments.items():
             assert(asmt is not None)
             pin_no = int(pin.split(" ")[1])

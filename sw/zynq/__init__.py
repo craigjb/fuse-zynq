@@ -46,6 +46,9 @@ class Zynq:
 
         # Explicitly disable for now
         tcl_parameters.update({
-            "PCW_USE_M_AXI_GP0": 0
+            "PCW_USE_M_AXI_GP0": 0,
+            # TODO, remove once FPGA clocks are supported
+            "PCW_FPGA_FCLK0_ENABLE": 0,
+            "PCW_FCLK_CLK0_BUF": "FALSE"
         })
         return tcl_parameters

@@ -22,10 +22,9 @@ class Uarts:
         if len(self.uarts) > 0:
             params = {
                 "PCW_UART_PERIPHERAL_VALID": 1,
-                "PCW_ACT_UART_PERIPHERAL_FREQMHZ": self.freq_mhz,
-                "PCW_UART_PERIPHERAL_FREQMHZ": self.freq_mhz,
                 "PCW_UART_PERIPHERAL_DIVISOR0": self.clk_divisor,
-                "PCW_UART_PERIPHERAL_CLKSRC": self.clk_source
+                "PCW_UART_PERIPHERAL_CLKSRC": self.clk_source,
+                "PCW_UART_PERIPHERAL_FREQMHZ": self.freq_mhz,
             }
             for uart in self.uarts:
                 params.update(uart.tcl_parameters())
@@ -104,8 +103,8 @@ class Uart:
     def tcl_parameters(self):
         return {
             f"PCW_UART{self.index}_PERIPHERAL_ENABLE": 1,
+            f"PCW_EN_UART{self.index}": 1,
             f"PCW_UART{self.index}_UART{self.index}_IO":
                 self.pin_group["name"],
-            f"PCW_EN_UART{self.index}": 1,
             f"PCW_UART{self.index}_BAUD_RATE": self.baud_rate
         }

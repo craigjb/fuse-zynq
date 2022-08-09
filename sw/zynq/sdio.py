@@ -20,11 +20,10 @@ class Sdios:
     def tcl_parameters(self):
         if len(self.sdios) > 0:
             params = {
-                "PCW_ACT_SDIO_PERIPHERAL_FREQMHZ": self.freq_mhz,
-                "PCW_SDIO_PERIPHERAL_FREQMHZ": self.freq_mhz,
                 "PCW_SDIO_PERIPHERAL_VALID": 1,
+                "PCW_SDIO_PERIPHERAL_CLKSRC": self.clk_source,
                 "PCW_SDIO_PERIPHERAL_DIVISOR0": self.clk_divisor,
-                "PCW_SDIO_PERIPHERAL_CLKSRC": self.clk_source
+                "PCW_SDIO_PERIPHERAL_FREQMHZ": self.freq_mhz,
             }
             for sdio in self.sdios:
                 params.update(sdio.tcl_parameters())
