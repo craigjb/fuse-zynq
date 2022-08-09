@@ -36,12 +36,12 @@ class Zynq:
     def tcl_parameters(self):
         tcl_parameters = {}
         tcl_parameters.update(self.part.tcl_parameters())
+        tcl_parameters.update(self.clocks.tcl_parameters())
         tcl_parameters.update(self.ddr.tcl_parameters())
         tcl_parameters.update(self.uarts.tcl_parameters())
         tcl_parameters.update(self.qspi.tcl_parameters())
         tcl_parameters.update(self.sdios.tcl_parameters())
         tcl_parameters.update(self.usbs.tcl_parameters())
-        tcl_parameters.update(self.clocks.tcl_parameters())
         tcl_parameters.update(self.mio.tcl_parameters())
 
         # Explicitly disable for now
