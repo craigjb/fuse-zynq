@@ -13,22 +13,22 @@ class Clocks:
 
     def tcl_parameters(self):
         return {
-            # CPU
+            # Osc in
             "PCW_CRYSTAL_PERIPHERAL_FREQMHZ": self.ps_in_freq_mhz,
+            # CPU
             "PCW_APU_CLK_RATIO_ENABLE": self.cpu_ratio_mode,
             "PCW_APU_PERIPHERAL_FREQMHZ": self.cpu_freq_mhz,
-            "PCW_CPU_CPU_PLL_FREQMHZ": self.cpu_pll_freq_mhz,
             "PCW_ARMPLL_CTRL_FBDIV": self.cpu_pll_mul,
+            "PCW_CPU_CPU_PLL_FREQMHZ": self.cpu_pll_freq_mhz,
             "PCW_CPU_PERIPHERAL_DIVISOR0": self.cpu_pll_div,
             # DDR
-            "PCW_UIPARAM_DDR_FREQ_MHZ": self.target_ddr_freq,
-            "PCW_UIPARAM_ACT_DDR_FREQ_MHZ": self.ddr_freq_mhz,
-            "PCW_DDR_DDR_PLL_FREQMHZ": self.ddr_pll_freq_mhz,
             "PCW_DDRPLL_CTRL_FBDIV": self.ddr_pll_mul,
+            "PCW_DDR_DDR_PLL_FREQMHZ": self.ddr_pll_freq_mhz,
             "PCW_DDR_PERIPHERAL_DIVISOR0": self.ddr_pll_div,
+            "PCW_UIPARAM_DDR_FREQ_MHZ": self.target_ddr_freq,
             # IO
+            "PCW_IOPLL_CTRL_FBDIV": self.io_pll_mul,
             "PCW_IO_IO_PLL_FREQMHZ": self.io_pll_freq_mhz,
-            "PCW_IOPLL_CTRL_FBDIV": self.io_pll_mul
         }
 
     def calculate_io_div_and_freq(self, peripheral, target_freq_mhz,
