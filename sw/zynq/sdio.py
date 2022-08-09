@@ -4,12 +4,12 @@ from .mio import MioDirection, MioSlew
 
 class Sdios:
     def __init__(self, config, mio, clocks):
+        self.sdios = []
         if "sdio" not in config:
             print("No SDIOs configured")
         else:
             print("SDIO configuration:")
             self.parse_config(config["sdio"])
-            self.sdios = []
             for index in platform["sdio"]["peripherals"].keys():
                 config_name = f"sdio{index}"
                 if config_name in config["sdio"]:

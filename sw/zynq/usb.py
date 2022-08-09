@@ -5,11 +5,11 @@ from .yml_util import get_one_of
 
 class Usbs:
     def __init__(self, config, mio):
+        self.usbs = []
         if "usb" not in config:
             print("No USBs configured")
         else:
             print("USB configuration:")
-            self.usbs = []
             for index in platform["usb"]["peripherals"].keys():
                 config_name = f"usb{index}"
                 if config_name in config["usb"]:
@@ -37,7 +37,7 @@ class Usb:
             )
             print(f"\t\t{name}: {pin['loc']}")
 
-        if usb_config and "reset_pin" in usb_config:
+        if "reset_pin" in usb_config:
             mio_pins = [f"MIO {i}" for i in range(platform["mio_count"])]
             self.reset_pin = get_one_of(
                 usb_config, "reset_pin", f"usb{self.index}", str,

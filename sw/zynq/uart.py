@@ -5,12 +5,12 @@ from .mio import MioDirection, MioSlew
 
 class Uarts:
     def __init__(self, config, mio, clocks):
+        self.uarts = []
         if "uarts" not in config:
             print("No UARTs configured")
         else:
             print("UART configuration:")
             self.parse_config(config["uarts"])
-            self.uarts = []
             for index in platform["uarts"].keys():
                 config_name = f"uart{index}"
                 if config_name in config["uarts"]:
