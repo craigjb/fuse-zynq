@@ -25,7 +25,7 @@ class Clocks:
             "PCW_DDRPLL_CTRL_FBDIV": self.ddr_pll_mul,
             "PCW_DDR_DDR_PLL_FREQMHZ": self.ddr_pll_freq_mhz,
             "PCW_DDR_PERIPHERAL_DIVISOR0": self.ddr_pll_div,
-            "PCW_UIPARAM_DDR_FREQ_MHZ": self.target_ddr_freq,
+            "PCW_UIPARAM_DDR_FREQ_MHZ": self.ddr_freq_mhz,
             # IO
             "PCW_IOPLL_CTRL_FBDIV": self.io_pll_mul,
             "PCW_IO_IO_PLL_FREQMHZ": self.io_pll_freq_mhz,
