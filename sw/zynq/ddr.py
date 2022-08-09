@@ -99,8 +99,9 @@ class DdrGeometry:
         )
         print(f"\t\tCapacity per component: {self.mbits_per_part} Mbits")
         total_cap = self.mbits_per_part * self.num_parts
-        total_bytes = int(total_cap / 8)
-        print(f"\t\tTotal memory capacity: {total_cap} Mbits ({total_bytes} MB)")
+        self.total_bytes = int(total_cap / 8)
+        print(f"\t\tTotal memory capacity: {total_cap} Mbits"
+               " ({self.total_bytes} MB)")
 
         expected_mbits_per_part = ddr_capacity(
             self.bank_bits, self.row_bits, self.col_bits,
@@ -123,6 +124,7 @@ class DdrGeometry:
             "PCW_UIPARAM_DDR_BANK_ADDR_COUNT": self.bank_bits,
             "PCW_UIPARAM_DDR_ROW_ADDR_COUNT": self.row_bits,
             "PCW_UIPARAM_DDR_COL_ADDR_COUNT": self.col_bits,
+            "PCW_DDR_RAM_HIGHADDR": f"0x{(self.total_bytes - 1):08X}"
         }
 
 
