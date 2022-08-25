@@ -166,8 +166,8 @@ ddr_speed_bins:
         "1066": "LPDDR2_1066"
 
 ddr_bus_widths:
-    16: "16 Bits"
-    32: "32 Bits"
+    16: "16 Bit"
+    32: "32 Bit"
 
 ddr_part_widths:
     4: "4 Bits"
