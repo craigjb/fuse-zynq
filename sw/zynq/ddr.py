@@ -99,7 +99,8 @@ class DdrGeometry:
         )
         print(f"\t\tCapacity per component: {self.mbits_per_part} Mbits")
         total_cap = self.mbits_per_part * self.num_parts
-        self.total_bytes = int(total_cap / 8)
+        self.total_megabytes = int(total_cap / 8)
+        self.total_bytes = int(self.total_megabytes * 1024 * 1024)
         print(f"\t\tTotal memory capacity: {total_cap} Mbits"
                " ({self.total_bytes} MB)")
 
@@ -108,11 +109,13 @@ class DdrGeometry:
             self.part_bit_width
         )
         if self.mbits_per_part != expected_mbits_per_part:
-            print("Error: DDR capacity does not match bank, row, column bit config:")
+            print("Error: DDR capacity does not match "
+                  "bank, row, column bit config:")
             print(f"\tCalculated: {expected_mbits_per_part} Mbit per component")
             print(f"\tConfigured: {self.mbits_per_part} Mbit per component")
             raise RuntimeError(
-                "DDR bank, row, and column bit config does not match mbits_per_component"
+                "DDR bank, row, and column bit config does not match "
+                "mbits_per_component"
             )
 
     def tcl_parameters(self):
