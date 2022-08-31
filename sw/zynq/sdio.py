@@ -1,3 +1,5 @@
+import textwrap
+
 from . import platform
 from .yml_util import get_num_in_range, get_one_of
 from .mio import MioDirection, MioSlew
@@ -31,6 +33,11 @@ class Sdios:
         else:
             return {}
 
+    def tcl_commands(self):
+        if len(self.sdios) > 0:
+            return "\n".join([sdio.tcl_commands() for sdio in self.sdios])
+        else:
+            return ""
 
     def parse_config(self, sdios_config):
         if "freq_mhz" in sdios_config:
@@ -194,3 +201,19 @@ class Sdio:
                 f"PCW_SD{self.index}_GRP_WP_IO": self.detect_pin
             })
         return params
+
+    def tcl_commands(self):
+        if (self.pin_group["name"] == "EMIO"
+                or self.protect_pin == "EMIO"
+                or self.detect_pin == "EMIO"):
+            return textwrap.dedent(f"""\
+                create_bd_intf_port \\
+                    -mode Master \\
+                    -vlnv xilinx.com:interface:sdio_rtl:1.0 \\
+                    SDIO_{self.index}
+                connect_bd_intf_net \\
+                    [get_bd_intf_ports SDIO_{self.index}] \\
+                    [get_bd_intf_pins zynqps/SDIO_{self.index}]
+                """)
+        else:
+            return f"# No TCL commands for SDIO{self.index}"

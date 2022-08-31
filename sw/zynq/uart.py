@@ -1,3 +1,5 @@
+import textwrap
+
 from . import platform
 from .yml_util import get_num_in_range, get_one_of
 from .mio import MioDirection, MioSlew
@@ -32,6 +34,12 @@ class Uarts:
         else:
             return {}
 
+    def tcl_commands(self):
+        if len(self.uarts) > 0:
+            return "\n".join([uart.tcl_commands() for uart in self.uarts])
+        else:
+            return ""
+        
     def parse_config(self, uarts_config):
         if "freq_mhz" in uarts_config:
             self.target_freq_mhz = get_num_in_range(
@@ -108,3 +116,18 @@ class Uart:
                 self.pin_group["name"],
             f"PCW_UART{self.index}_BAUD_RATE": self.baud_rate
         }
+
+    def tcl_commands(self):
+        if self.pin_group["name"] == "EMIO":
+            return textwrap.dedent(f"""\
+                create_bd_intf_port \\
+                    -mode Master \\
+                    -vlnv xilinx.com:interface:uart_rtl:1.0 \\
+                    UART_{self.index}
+                connect_bd_intf_net \\
+                    [get_bd_intf_ports UART_{self.index}] \\
+                    [get_bd_intf_pins zynqps/UART_{self.index}]
+                """)
+        else:
+            return f"# No TCL commands for UART{self.index}"
+

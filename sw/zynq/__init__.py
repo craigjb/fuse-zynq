@@ -52,3 +52,10 @@ class Zynq:
             "PCW_EN_RST0_PORT": 0
         })
         return tcl_parameters
+
+    def tcl_commands(self):
+        return "\n\n".join([
+            self.uarts.tcl_commands(),
+            self.sdios.tcl_commands(),
+            self.usbs.tcl_commands()
+        ])

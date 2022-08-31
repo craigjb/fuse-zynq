@@ -12,13 +12,18 @@ TPLT_REL_PATH = "../data/zynq_tcl.tplt"
 
 
 def generate_tcl(config, output_path):
-    params = zynq.Zynq(config).tcl_parameters()
+    generated = zynq.Zynq(config)
+    params = generated.tcl_parameters()
+    cmds = generated.tcl_commands()
 
     tplt_path = os.path.join(os.path.dirname(__file__), TPLT_REL_PATH)
     with open(tplt_path) as f:
         tplt = jinja2.Template(f.read())
     with open(output_path, "w") as f:
-        data = tplt.render({"zynqps_properties": params})
+        data = tplt.render({
+            "zynqps_properties": params,
+            "zynqps_tcl_cmds": cmds
+        })
         if not data:
             raise RuntimeError("Unknown error: template output is None")
         f.write(data)

@@ -1,3 +1,5 @@
+import textwrap
+
 from . import platform
 from .mio import MioDirection, MioSlew
 from .yml_util import get_one_of
@@ -22,6 +24,12 @@ class Usbs:
         for usb in self.usbs:
             params.update(usb.tcl_parameters())
         return params
+
+    def tcl_commands(self):
+        if len(self.usbs) > 0:
+            return "\n".join([usb.tcl_commands() for usb in self.usbs])
+        else:
+            return ""
 
 class Usb:
     def __init__(self, index, usb_config, mio):
@@ -66,3 +74,14 @@ class Usb:
                 f"PCW_USB{self.index}_RESET_IO": self.reset_pin
             })
         return params
+
+    def tcl_commands(self):
+        return textwrap.dedent(f"""\
+            create_bd_intf_port \\
+                -mode Master \\
+                -vlnv xilinx.com:display_processing_system7:usbctrl_rtl:1.0 \\
+                USBIND_{self.index}
+            connect_bd_intf_net \\
+                [get_bd_intf_ports USBIND_{self.index}] \\
+                [get_bd_intf_pins zynqps/USBIND_{self.index}]
+            """)

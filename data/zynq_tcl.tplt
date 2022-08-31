@@ -30,6 +30,8 @@ set_property -dict [ list \
 ] $zynqps
 {% endif %}
 
+{{ zynqps_tcl_cmds }}
+
 save_bd_design
 
 # Generate wrapper and add as a source file
