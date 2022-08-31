@@ -82,8 +82,8 @@ io_divisor:
 ddr_types:
     DDR3: "DDR 3"
     DDR3L: "LPDDR 3"
-    DDR2: "DDR 2"
-    LPDDR2: "LPDDR 2"
+    #DDR2: "DDR 2"
+    #LPDDR2: "LPDDR 2"
 
 ddr_min_feq: 26.0
 
