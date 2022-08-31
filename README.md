@@ -193,6 +193,8 @@ usb:
 - :white_check_mark: QSPI (single chip, single select)
 - :white_check_mark: SDIO
 - :white_check_mark: USB
+- &#9744; PS-PL clocks & resets (1st priority)
+- &#9744; PS-PL AXI interfaces (2nd priority)
 - &#9744; SMC
 - &#9744; CAN
 - &#9744; Ethernet
