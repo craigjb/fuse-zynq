@@ -38,29 +38,50 @@ def generate_core(config, output_path):
         f.write(yaml.dump(coredata))
 
 
+def print_usage_and_exit():
+        print("usage: python generate.py "
+              "<yaml input file> <TCL output file>")
+        sys.exit(1)
+
+
 def main():
+    if len(sys.argv) < 2:
+        print_usage_and_exit()
+    verbose = True
+
     try:
         with open(sys.argv[1]) as f:
             config = ordered_load(f)
 
-        zynq_config_file = config["parameters"].get("zynq_config_file", None)
-        if zynq_config_file:
-            zynq_config_path = os.path.join(
-                config["files_root"], zynq_config_file)
-            with open(zynq_config_path) as f:
-                params = ordered_load(f)
-        else:
-            params = config["parameters"]
-
-        if len(sys.argv) > 2:
+        # when run by fusesoc as a generator,
+        # the config comes in throug the parameters key
+        if "parameters" not in config:
+            # standalone mode
+            if len(sys.argv) < 3:
+                print_usage_and_exit()
+            params = config
             generate_tcl(params, sys.argv[2])
         else:
-            generate_tcl(params, "zynq_ps7.tcl")
-            core_file = config["vlnv"].split(':')[2]+'.core'
-            generate_core(config, core_file)
+            # fusesoc generator mode
+            verbose = "-v" in sys.argv
+            zynq_config_file = config["parameters"].get("zynq_config_file", None)
+            if zynq_config_file:
+                zynq_config_path = os.path.join(
+                    config["files_root"], zynq_config_file)
+                with open(zynq_config_path) as f:
+                    params = ordered_load(f)
+            else:
+                params = config["parameters"]
+
+            if len(sys.argv) > 2:
+                generate_tcl(params, sys.argv[2])
+            else:
+                generate_tcl(params, "zynq_ps7.tcl")
+                core_file = config["vlnv"].split(':')[2]+'.core'
+                generate_core(config, core_file)
     except Exception as e:
         print("Error: %s" % e)
-        if "-v" in sys.argv:
+        if verbose:
             import traceback
             print(traceback.format_exc())
         exit(1)
