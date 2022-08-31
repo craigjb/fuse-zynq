@@ -329,6 +329,7 @@ uarts:
         name: "MIO 52 .. 53"
       - tx: EMIO
         rx: EMIO
+        name: "EMIO"
 
 uart_baud_rates:
   - 110
