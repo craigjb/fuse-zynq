@@ -57,7 +57,7 @@ class MAxiGp:
                 CONFIG.NUM_READ_OUTSTANDING {{{port_data["num_read_outstanding"]}}} \\
                 CONFIG.NUM_WRITE_OUTSTANDING {{{port_data["num_write_outstanding"]}}} \\
                 CONFIG.PROTOCOL {{{port_data["protocol"]}}} \\
-            ] $M_AXI_GP{self.index}
+            ] [get_bd_intf_ports M_AXI_GP{self.index}]
             connect_bd_intf_net \\
                 [get_bd_intf_ports M_AXI_GP{self.index}] \\
                 [get_bd_intf_pins zynqps/M_AXI_GP{self.index}]
