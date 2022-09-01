@@ -61,4 +61,8 @@ class MAxiGp:
             connect_bd_intf_net \\
                 [get_bd_intf_ports M_AXI_GP{self.index}] \\
                 [get_bd_intf_pins zynqps/M_AXI_GP{self.index}]
+            create_bd_port -dir I -type clk M_AXI_GP{self.index}_ACLK
+            connect_bd_net \\
+                [get_bd_ports M_AXI_GP{self.index}_ACLK] \\
+                [get_bd_pins zynqps/M_AXI_GP{self.index}_ACLK]
             """)
