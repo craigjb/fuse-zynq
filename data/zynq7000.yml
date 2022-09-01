@@ -575,3 +575,13 @@ usb:
   params:
     PCW_USB_RESET_ENABLE: 1
     PCW_USB_RESET_SELECT: "Separate reset pins"
+
+ps_pl:
+  m_axi_gp_ports:
+    peripherals: [0, 1]
+    addr_width: 32
+    data_width: 32
+    has_region: 0
+    num_read_outstanding: 8
+    num_write_outstanding: 8
+    protocol: AXI3

@@ -21,6 +21,7 @@ from .uart import Uarts
 from .qspi import Qspi
 from .sdio import Sdios
 from .usb import Usbs
+from .pspl import PsPl
 
 class Zynq:
     def __init__(self, config):
@@ -32,6 +33,7 @@ class Zynq:
         self.qspi = Qspi(config, self.mio, self.clocks)
         self.sdios = Sdios(config, self.mio, self.clocks)
         self.usbs = Usbs(config, self.mio)
+        self.pspl = PsPl(config)
 
     def tcl_parameters(self):
         tcl_parameters = {}
@@ -43,6 +45,7 @@ class Zynq:
         tcl_parameters.update(self.sdios.tcl_parameters())
         tcl_parameters.update(self.usbs.tcl_parameters())
         tcl_parameters.update(self.mio.tcl_parameters())
+        tcl_parameters.update(self.pspl.tcl_parameters())
 
         # Explicitly disable for now
         tcl_parameters.update({
@@ -57,5 +60,6 @@ class Zynq:
         return "\n\n".join([
             self.uarts.tcl_commands(),
             self.sdios.tcl_commands(),
-            self.usbs.tcl_commands()
+            self.usbs.tcl_commands(),
+            self.pspl.tcl_commands()
         ])
