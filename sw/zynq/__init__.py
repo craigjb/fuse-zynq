@@ -36,7 +36,13 @@ class Zynq:
         self.pspl = PsPl(config)
 
     def tcl_parameters(self):
-        tcl_parameters = {}
+        # Disable defaults
+        tcl_parameters = {
+            "PCW_USE_M_AXI_GP0": 0,
+            "PCW_EN_CLK0_PORT": 0,
+            "PCW_EN_RST0_PORT": 0
+        }
+
         tcl_parameters.update(self.part.tcl_parameters())
         tcl_parameters.update(self.clocks.tcl_parameters())
         tcl_parameters.update(self.ddr.tcl_parameters())
@@ -47,13 +53,6 @@ class Zynq:
         tcl_parameters.update(self.mio.tcl_parameters())
         tcl_parameters.update(self.pspl.tcl_parameters())
 
-        # Explicitly disable for now
-        tcl_parameters.update({
-            "PCW_USE_M_AXI_GP0": 0,
-            # TODO, remove once FPGA clocks are supported
-            "PCW_EN_CLK0_PORT": 0,
-            "PCW_EN_RST0_PORT": 0
-        })
         return tcl_parameters
 
     def tcl_commands(self):
