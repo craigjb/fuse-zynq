@@ -578,7 +578,13 @@ usb:
 
 ps_pl:
   m_axi_gp_ports:
-    peripherals: [0, 1]
+    peripherals:
+      0:
+        addr_map_offset: 0x40000000
+        addr_map_range: 0x40000000
+      1:
+        addr_map_offset: 0x80000000
+        addr_map_range: 0x40000000
     addr_width: 32
     data_width: 32
     has_region: 0

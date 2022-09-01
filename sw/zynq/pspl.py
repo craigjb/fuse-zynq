@@ -9,7 +9,8 @@ class PsPl:
         if "ps_pl" not in config:
             print("No PS-PL signals configured")
         else:
-            for index in platform["ps_pl"]["m_axi_gp_ports"]["peripherals"]:
+            m_axis_gp_ports = platform["ps_pl"]["m_axi_gp_ports"]
+            for index in m_axis_gp_ports["peripherals"].keys():
                 config_name = f"m_axi_gp{index}"
                 if config_name in config["ps_pl"]:
                     port_config = config["ps_pl"][config_name]
@@ -44,12 +45,15 @@ class MAxiGp:
 
     def tcl_commands(self):
         port_data = platform["ps_pl"]["m_axi_gp_ports"]
+        peripheral = port_data["peripherals"][self.index]
 
         return textwrap.dedent(f"""\
+            # Create M_AXI_GP{self.index} ports
             create_bd_intf_port \\
                 -mode Master \\
                 -vlnv xilinx.com:interface:aximm_rtl:1.0 \\
                 M_AXI_GP{self.index}
+            create_bd_port -dir I -type clk M_AXI_GP{self.index}_ACLK
             set_property -dict [ list \\
                 CONFIG.ADDR_WIDTH {{{port_data["addr_width"]}}} \\
                 CONFIG.DATA_WIDTH {{{port_data["data_width"]}}} \\
@@ -58,11 +62,20 @@ class MAxiGp:
                 CONFIG.NUM_WRITE_OUTSTANDING {{{port_data["num_write_outstanding"]}}} \\
                 CONFIG.PROTOCOL {{{port_data["protocol"]}}} \\
             ] [get_bd_intf_ports M_AXI_GP{self.index}]
+
+            # Connect M_AXI_GP{self.index} ports to Zynq PS
             connect_bd_intf_net \\
                 [get_bd_intf_ports M_AXI_GP{self.index}] \\
                 [get_bd_intf_pins zynqps/M_AXI_GP{self.index}]
-            create_bd_port -dir I -type clk M_AXI_GP{self.index}_ACLK
             connect_bd_net \\
                 [get_bd_ports M_AXI_GP{self.index}_ACLK] \\
                 [get_bd_pins zynqps/M_AXI_GP{self.index}_ACLK]
+
+            # Map full 1G address spaces so Vivado does not complain
+            create_bd_addr_seg \\
+                -range 0x{peripheral["addr_map_range"]:08X} \\
+                -offset 0x{peripheral["addr_map_offset"]:08X} \\
+                [get_bd_addr_spaces zynqps/Data] \\
+                [get_bd_addr_segs M_AXI_GP{self.index}/Reg] \\
+                SEG_M_AXI_GP{self.index}_Reg
             """)
