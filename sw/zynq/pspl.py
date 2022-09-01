@@ -34,6 +34,8 @@ class MAxiGp:
         # TODO: support port configuration options
         if not isinstance(port_config, bool):
             raise RuntimeError("m_axi_gp{index} must be a bool value")
+        print(f"General purpose master AXI port {self.index}"
+              f" (M_AXI_GP{self.index}) enabled")
 
     def tcl_parameters(self):
         return {
