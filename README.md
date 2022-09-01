@@ -122,6 +122,9 @@ sdio:
 usb:
   usb0:
     reset_pin: MIO 46
+ps_pl:
+  m_axi_gp0: yes
+  m_axi_gp1: yes
 ```
 
 ```yaml
@@ -179,6 +182,9 @@ sdio:
 usb:
   usb0:
     reset_pin: MIO 46
+ps_pl:
+  m_axi_gp0: yes
+  m_axi_gp1: yes
 ```
 
 ## Status and limitations
@@ -195,6 +201,7 @@ usb:
 - :white_check_mark: USB
 - &#9744; PS-PL clocks & resets (1st priority)
 - &#9744; PS-PL AXI interfaces (2nd priority)
+  - :white_check_mark: M_AXI_GP
 - &#9744; SMC
 - &#9744; CAN
 - &#9744; Ethernet
