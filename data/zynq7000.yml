@@ -591,3 +591,20 @@ ps_pl:
     num_read_outstanding: 8
     num_write_outstanding: 8
     protocol: AXI3
+  fclks:
+    clk_srcs:
+      - "ARM PLL"
+      - "DDR PLL"
+      - "IO PLL"
+    default_clk_src: "IO PLL"
+    divisor0:
+      min: 1
+      max: 63
+    divisor1:
+      min: 1
+      max: 63
+    peripherals:
+      0:
+      1:
+      2:
+      3:

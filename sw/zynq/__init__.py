@@ -33,7 +33,7 @@ class Zynq:
         self.qspi = Qspi(config, self.mio, self.clocks)
         self.sdios = Sdios(config, self.mio, self.clocks)
         self.usbs = Usbs(config, self.mio)
-        self.pspl = PsPl(config)
+        self.pspl = PsPl(config, self.clocks)
 
     def tcl_parameters(self):
         # Disable defaults
@@ -50,8 +50,8 @@ class Zynq:
         tcl_parameters.update(self.qspi.tcl_parameters())
         tcl_parameters.update(self.sdios.tcl_parameters())
         tcl_parameters.update(self.usbs.tcl_parameters())
-        tcl_parameters.update(self.mio.tcl_parameters())
         tcl_parameters.update(self.pspl.tcl_parameters())
+        tcl_parameters.update(self.mio.tcl_parameters())
 
         return tcl_parameters
 
