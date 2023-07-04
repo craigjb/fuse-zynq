@@ -9,10 +9,13 @@ class Clocks:
         self.parse_cpu_clk(config, part)
         self.gen_io_pll(config, part)
         if ddr.enabled:
+            self.ddr_enabled = True
             self.parse_ddr_clk(ddr, part)
+        else:
+            self.ddr_enabled = False
 
     def tcl_parameters(self):
-        return {
+        params = {
             # Osc in
             "PCW_CRYSTAL_PERIPHERAL_FREQMHZ": self.ps_in_freq_mhz,
             # CPU
@@ -21,15 +24,26 @@ class Clocks:
             "PCW_ARMPLL_CTRL_FBDIV": self.cpu_pll_mul,
             "PCW_CPU_CPU_PLL_FREQMHZ": self.cpu_pll_freq_mhz,
             "PCW_CPU_PERIPHERAL_DIVISOR0": self.cpu_pll_div,
-            # DDR
-            "PCW_DDRPLL_CTRL_FBDIV": self.ddr_pll_mul,
-            "PCW_DDR_DDR_PLL_FREQMHZ": self.ddr_pll_freq_mhz,
-            "PCW_DDR_PERIPHERAL_DIVISOR0": self.ddr_pll_div,
-            "PCW_UIPARAM_DDR_FREQ_MHZ": self.ddr_freq_mhz,
             # IO
             "PCW_IOPLL_CTRL_FBDIV": self.io_pll_mul,
-            "PCW_IO_IO_PLL_FREQMHZ": self.io_pll_freq_mhz,
+            "PCW_IO_IO_PLL_FREQMHZ": self.io_pll_freq_mhz
         }
+
+        if self.ddr_enabled:
+            params.update({
+                # DDR
+                "PCW_UIPARAM_DDR_ENABLE": 1,
+                "PCW_DDRPLL_CTRL_FBDIV": self.ddr_pll_mul,
+                "PCW_DDR_DDR_PLL_FREQMHZ": self.ddr_pll_freq_mhz,
+                "PCW_DDR_PERIPHERAL_DIVISOR0": self.ddr_pll_div,
+                "PCW_UIPARAM_DDR_FREQ_MHZ": self.ddr_freq_mhz
+            })
+        else:
+            params.update({
+                "PCW_UIPARAM_DDR_ENABLE": 0,
+            })
+
+        return params
 
     def calculate_io_div_and_freq(self, peripheral, target_freq_mhz,
                                   min_freq, max_freq):
