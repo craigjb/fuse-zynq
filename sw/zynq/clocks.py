@@ -36,26 +36,56 @@ class Clocks:
         # Brute-force exhaustive search ;)
         best_option = None, None, None
 
-        pll_div_candidates = range(
-            platform["io_divisor"]["min"], platform["io_divisor"]["max"] + 1)
+        min_div0 = platform["io_divisor"]["min"]
+        max_div0 = platform["io_divisor"]["max"]
 
-        for div in pll_div_candidates:
-            freq = self.io_pll_freq_mhz / float(div)
-            error = abs(freq - target_freq_mhz)
-            if (freq >= min_freq and freq <= max_freq):
-                if best_option[0] is None or error < best_option[2]:
-                    best_option = (div, freq , error)
+        div0, _, freq = self.calculate_pll_divs_and_freq(
+            peripheral, "IO PLL",
+            target_freq_mhz, min_freq, max_freq,
+            min_div0, max_div0, min_div1=1, max_div1=1)
+        return div0, freq
 
-        div, freq, _ = best_option
-        if div is None:
+
+    def calculate_pll_divs_and_freq(
+            self, peripheral, pll_name,
+            target_freq_mhz, min_freq, max_freq,
+            min_div0, max_div0, min_div1, max_div1):
+
+        input_pll_freq = self.get_pll_freq_mhz(pll_name)
+        div0_candidates = range(min_div0, max_div0 + 1)
+        div1_candidates = range(min_div1, max_div1 + 1)
+
+        # Brute-force exhaustive search ;)
+        best_option = None, None, None, None
+        for div0 in div0_candidates:
+            for div1 in div1_candidates:
+                freq = input_pll_freq / float(div0) / float(div1)
+                error = abs(freq - target_freq_mhz)
+                if (freq >= min_freq and freq <= max_freq):
+                    if best_option[0] is None or error < best_option[3]:
+                        best_option = (div0, div1, freq, error)
+
+        div0, div1, freq, _ = best_option
+        if div0 is None or div1 is None:
             raise RuntimeError(
-                f"Could not find clk divisor for target {peripheral}"
+                f"Could not find clk divisors for target {peripheral}"
                 f" frequency of: { target_freq_mhz } MHz")
+        print(f"\t{peripheral} clk source: IO PLL")
+        print(f"\t{peripheral} clk divisor0: {div0}")
+        if max_div1 - min_div1 > 0:
+            print(f"\t{peripheral} clk divisor1: {div1}")
+        print(f"\tActual {peripheral} frequency: {freq} MHz")
+        return div0, div1, freq
 
-        print(f"\tPeripheral clk source: IO PLL")
-        print(f"\tPeripheral clk divisor: {div}")
-        print(f"\tActual peripheral frequency: {freq} MHz")
-        return div, freq
+    def get_pll_freq_mhz(self, name):
+        if name.upper() == "ARM PLL":
+            return self.cpu_pll_freq_mhz
+        elif name.upper() == "DDR PLL":
+            return self.ddr_freq_mhz
+        elif name.upper() == "IO PLL":
+            return self.io_pll_freq_mhz
+        else:
+            raise RuntimeError(f"{name} is not a valid PLL name")
 
     def parse_ps_clk(self, config):
         self.ps_in_freq_mhz = get_num_in_range(
