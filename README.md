@@ -125,6 +125,18 @@ usb:
 ps_pl:
   m_axi_gp0: yes
   m_axi_gp1: yes
+  fclk0:
+    freq_mhz: 100.0
+  fclk1:
+    freq_mhz: 30.0
+  fclk2:
+    freq_mhz: 50.0
+  fclk3:
+    freq_mhz: 70.0
+  frst0: yes
+  frst1: yes
+  frst2: yes
+  frst3: yes
 ```
 
 ```yaml
@@ -185,6 +197,15 @@ usb:
 ps_pl:
   m_axi_gp0: yes
   m_axi_gp1: yes
+  fclk0:
+    clk_src: "IO PLL"
+    pll_div0: 10
+    pll_div1: 1
+  frst0: yes
+  frst1: yes
+  frst2: yes
+  frst3: yes
+
 ```
 
 ## Status and limitations
@@ -199,8 +220,10 @@ ps_pl:
 - :white_check_mark: QSPI (single chip, single select)
 - :white_check_mark: SDIO
 - :white_check_mark: USB
-- &#9744; PS-PL clocks & resets (1st priority)
-- &#9744; PS-PL AXI interfaces (2nd priority)
+- :white_check_mark: PS-PL clocks & resets
+  - :white_check_mark: FCLK
+  - :white_check_mark: FRST
+- &#9744; PS-PL AXI interfaces
   - :white_check_mark: M_AXI_GP
 - &#9744; SMC
 - &#9744; CAN
