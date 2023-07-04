@@ -8,6 +8,7 @@ class PsPl:
     def __init__(self, config, clocks):
         self.m_axi_gps = []
         self.fclks = []
+        self.frsts = []
 
         if "ps_pl" not in config:
             print("No PS-PL signals configured")
@@ -23,9 +24,14 @@ class PsPl:
             for index in fclks["peripherals"].keys():
                 config_name = f"fclk{index}"
                 if config_name in config["ps_pl"]:
-                    port_config = config["ps_pl"][config_name]
-                    self.fclks.append(Fclk(index, port_config, clocks))
-
+                    fclk_config = config["ps_pl"][config_name]
+                    self.fclks.append(Fclk(index, fclk_config, clocks))
+            frsts = platform["ps_pl"]["frsts"]
+            for index in frsts["peripherals"].keys():
+                config_name = f"frst{index}"
+                if config_name in config["ps_pl"]:
+                    frst_config = config["ps_pl"][config_name]
+                    self.frsts.append(Frst(index, frst_config))
 
     def tcl_parameters(self):
         params = {}
@@ -33,6 +39,8 @@ class PsPl:
             params.update(port.tcl_parameters())
         for fclk in self.fclks:
             params.update(fclk.tcl_parameters())
+        for frst in self.frsts:
+            params.update(frst.tcl_parameters())
         return params
 
     def tcl_commands(self):
@@ -154,3 +162,17 @@ class Fclk:
             f"PCW_EN_CLK{self.index}_PORT": 1
         }
 
+
+class Frst:
+    def __init__(self, index, rst_config):
+        self.index = index
+        
+        # TODO: support port configuration options
+        if not isinstance(rst_config, bool):
+            raise RuntimeError("frst{index} must be a bool value")
+        print(f"\tFRST{self.index}: enabled")
+
+    def tcl_parameters(self):
+        return {
+            f"PCW_EN_RST{self.index}_PORT": 1
+        }
