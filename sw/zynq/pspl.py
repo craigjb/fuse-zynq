@@ -45,7 +45,9 @@ class PsPl:
 
     def tcl_commands(self):
         return "\n".join(
-            [port.tcl_commands() for port in self.m_axi_gps]
+            [port.tcl_commands() for port in self.m_axi_gps] +
+            [fclk.tcl_commands() for fclk in self.fclks] +
+            [frst.tcl_commands() for frst in self.frsts]
         )
 
 
@@ -162,6 +164,15 @@ class Fclk:
             f"PCW_EN_CLK{self.index}_PORT": 1
         }
 
+    def tcl_commands(self):
+        port_name = self.name.upper()
+        return textwrap.dedent(f"""\
+            # create {self.name} port
+            create_bd_port -dir O -type clk {port_name}
+            connect_bd_net \\
+                [get_bd_ports {port_name}] \\
+                [get_bd_pins zynqps/FCLK_CLK{self.index}]
+            """)
 
 class Frst:
     def __init__(self, index, rst_config):
@@ -176,3 +187,13 @@ class Frst:
         return {
             f"PCW_EN_RST{self.index}_PORT": 1
         }
+
+    def tcl_commands(self):
+        port_name = f"FRST{self.index}"
+        return textwrap.dedent(f"""\
+            # create {port_name} port
+            create_bd_port -dir O -type rst {port_name}
+            connect_bd_net \\
+                [get_bd_ports {port_name}] \\
+                [get_bd_pins zynqps/FCLK_RESET{self.index}_N]
+            """)
