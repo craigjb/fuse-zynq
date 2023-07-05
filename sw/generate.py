@@ -8,15 +8,15 @@ import zynq
 from zynq.yml_util import ordered_load
 
 
-TPLT_REL_PATH = "../data/zynq_tcl.tplt"
+TCL_TPLT_REL_PATH = "../data/zynq_tcl.tplt"
+SPINAL_TPLT_REL_PATH = "../data/zynq_spinal.tplt"
 
 
-def generate_tcl(config, output_path):
-    generated = zynq.Zynq(config)
-    params = generated.tcl_parameters()
-    cmds = generated.tcl_commands()
+def generate_tcl(zynq_sys, output_path):
+    params = zynq_sys.tcl_parameters()
+    cmds = zynq_sys.tcl_commands()
 
-    tplt_path = os.path.join(os.path.dirname(__file__), TPLT_REL_PATH)
+    tplt_path = os.path.join(os.path.dirname(__file__), TCL_TPLT_REL_PATH)
     with open(tplt_path) as f:
         tplt = jinja2.Template(f.read())
     with open(output_path, "w") as f:
@@ -27,6 +27,21 @@ def generate_tcl(config, output_path):
         if not data:
             raise RuntimeError("Unknown error: template output is None")
         f.write(data)
+
+
+def generate_spinal(zynq_sys, output_path):
+    tplt_path = os.path.join(
+        os.path.dirname(__file__), SPINAL_TPLT_REL_PATH)
+    with open(tplt_path) as f:
+        tplt = jinja2.Template(f.read())
+    with open(output_path, "w") as f:
+        data = tplt.render({
+            "zynq_ps": zynq_sys,
+        })
+        if not data:
+            raise RuntimeError("Unknown error: template output is None")
+        f.write(data)
+    pass
 
 
 def generate_core(config, output_path):
@@ -45,7 +60,9 @@ def generate_core(config, output_path):
 
 def print_usage_and_exit():
         print("usage: python generate.py "
-              "<yaml input file> <TCL output file>")
+              "<yaml input file> "
+              "<TCL output file> "
+              "[SpinalHDL output file]")
         sys.exit(1)
 
 
@@ -65,7 +82,10 @@ def main():
             if len(sys.argv) < 3:
                 print_usage_and_exit()
             params = config
-            generate_tcl(params, sys.argv[2])
+            zynq_sys = zynq.Zynq(params)
+            generate_tcl(zynq_sys, sys.argv[2])
+            if len(sys.argv) >= 4:
+                generate_spinal(zynq_sys, sys.argv[3])
         else:
             # fusesoc generator mode
             verbose = "-v" in sys.argv
@@ -78,12 +98,22 @@ def main():
             else:
                 params = config["parameters"]
 
+            zynq_sys = zynq.Zynq(params)
+
             if len(sys.argv) > 2:
-                generate_tcl(params, sys.argv[2])
+                output_path = sys.argv[2]
             else:
-                generate_tcl(params, "zynq_ps7.tcl")
-                core_file = config["vlnv"].split(':')[2]+'.core'
-                generate_core(config, core_file)
+                output_path = "zynq_ps7.tcl"
+
+            generate_tcl(zynq_sys, output_path)
+            core_file = config["vlnv"].split(':')[2]+'.core'
+            generate_core(config, core_file)
+            if "spinal_hdl_output_path" in config["parameters"]:
+                output_path = os.path.join(
+                    config["files_root"],
+                    config["parameters"]["spinal_hdl_output_path"]
+                )
+                generate_spinal(zynq_sys, output_path)
     except Exception as e:
         print("Error: %s" % e)
         if verbose:

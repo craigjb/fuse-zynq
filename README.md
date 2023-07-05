@@ -26,6 +26,11 @@ This goal of this project is to eventually allow full configuration of the Zynq 
         <project_name>.srcs/sources_1/bd/zynqps/ip/zynqps_zynqps_0/ps7_init_gpl.c
         ```
 
+The generator can also generate a SpinalHDL blackbox component to match the Zynq configuration:
+```
+python sw/generate.py zynqps_config.yml zynqps.tcl hw/spinal/mypackage/ZynqPs.scala
+```
+
 ## fusesoc usage
 1. Add the fuse-zynq library:
     ```
@@ -59,6 +64,7 @@ This goal of this project is to eventually allow full configuration of the Zynq 
         generator : zynq_ps7_gen
         parameters:
             zynq_config_file: zynq_config.yml
+            spinal_hdl_output_path: hw/spinal/mypackage/ZynqPs.scala
     ```
 4. Run fusesoc: `fusesoc run craigjb::fuse_zynq_test`
 5. fusesoc will include the generated TCL configuration for the Zynq PS into the vendor build; when built:
